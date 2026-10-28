@@ -1,0 +1,1548 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ЭнергоУют — Солнечные станции, инверторы и АКБ LiFePO4 на заказ</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        dark: {
+                            950: '#050811',
+                            900: '#090e1a',
+                            800: '#111827',
+                            700: '#1e293b',
+                        },
+                        neon: {
+                            green: '#10b981',
+                            blue: '#3b82f6',
+                            amber: '#f59e0b',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #050811;
+            color: #f8fafc;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+        /* Неоновые эффекты и свечение */
+        .glow-green {
+            box-shadow: 0 0 25px -5px rgba(16, 185, 129, 0.45);
+        }
+        .glow-amber {
+            box-shadow: 0 0 25px -5px rgba(245, 158, 11, 0.5);
+        }
+        .glow-blue {
+            box-shadow: 0 0 25px -5px rgba(59, 130, 246, 0.45);
+        }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .glass-card:hover {
+            border-color: rgba(16, 185, 129, 0.35);
+        }
+        .hero-bg {
+            background: radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.14) 0%, rgba(59, 130, 246, 0.1) 35%, rgba(5, 8, 17, 1) 75%);
+        }
+        /* Стилизация ползунков калькулятора */
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+        }
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 8px;
+            cursor: pointer;
+            background: #1e293b;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        input[type=range]::-webkit-slider-thumb {
+            height: 22px;
+            width: 22px;
+            border-radius: 50%;
+            background: #10b981;
+            cursor: pointer;
+            -webkit-appearance: none;
+            margin-top: -8px;
+            box-shadow: 0 0 12px rgba(16, 185, 129, 0.9);
+            border: 2px solid #ffffff;
+            transition: transform 0.15s ease;
+        }
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.15);
+        }
+        /* Скрытие скроллбара для табов на мобильных */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-emerald-500 selection:text-white">
+
+    <!-- ВЕРХНЯЯ ПЛАШКА -->
+    <div class="bg-gradient-to-r from-amber-600/90 via-orange-500/90 to-emerald-600/90 text-white text-xs sm:text-sm py-2 px-4 text-center font-medium relative z-50">
+        <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-center gap-2">
+            <span class="bg-black/30 px-2 py-0.5 rounded-full font-bold uppercase tracking-wider text-[11px] animate-pulse">🔥 Спецпредложение</span>
+            <span>Фиксированная цена <b>100 ₽</b> на любой лот из каталога инверторов, АКБ и станций <b>MUST & BCT</b>!</span>
+            <a href="#catalog" onclick="filterCatalog('all')" class="underline font-bold hover:text-amber-200 ml-1">Перейти в каталог →</a>
+        </div>
+    </div>
+
+    <!-- ШАПКА САЙТА (HEADER) -->
+    <header class="sticky top-0 z-40 bg-dark-950/85 backdrop-blur-xl border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+            <!-- Логотип ЭнергоУют -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-emerald-500/20 via-blue-500/20 to-amber-500/20 border border-emerald-400/40 flex items-center justify-center relative glow-green group-hover:scale-105 transition">
+                    <i class="fa-solid fa-house-chimney text-emerald-400 text-xl"></i>
+                    <i class="fa-solid fa-bolt text-amber-400 text-sm absolute -top-1.5 -right-1 drop-shadow"></i>
+                </div>
+                <div>
+                    <span class="text-xl sm:text-2xl font-extrabold tracking-tight bg-gradient-to-r from-white via-emerald-200 to-emerald-400 bg-clip-text text-transparent">ЭнергоУют</span>
+                    <span class="block text-[10px] sm:text-xs text-slate-400 uppercase tracking-widest">Энергонезависимость</span>
+                </div>
+            </a>
+
+            <!-- Навигация (Desktop) -->
+            <nav class="hidden lg:flex items-center gap-7 text-sm font-medium text-slate-300">
+                <a href="#configurator" class="hover:text-emerald-400 transition">Конфигуратор</a>
+                <a href="#catalog" class="hover:text-emerald-400 transition">Каталог (все по 100 ₽)</a>
+                <a href="#about" class="hover:text-emerald-400 transition">Преимущества</a>
+                <a href="#contacts" class="hover:text-emerald-400 transition">Контакты</a>
+            </nav>
+
+            <!-- Контакты и кнопки в шапке -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <a href="https://t.me/Maxim1brd" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 bg-blue-600/20 hover:bg-blue-600/30 border border-blue-500/40 text-blue-300 px-3 sm:px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition">
+                    <i class="fa-brands fa-telegram text-blue-400 text-base sm:text-lg"></i>
+                    <span class="hidden sm:inline">@Maxim1brd</span>
+                </a>
+
+                <div class="hidden xl:flex flex-col text-right mr-1">
+                    <a href="tel:+7НомерБудет" class="text-sm font-bold text-white hover:text-emerald-400 transition">+7НомерБудет</a>
+                    <span class="text-[11px] text-emerald-400 flex items-center justify-end gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span> Прием заказов онлайн
+                    </span>
+                </div>
+
+                <button onclick="openOrderModal('Индивидуальная консультация и расчет (100 ₽)')" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs sm:text-sm px-3.5 sm:px-5 py-2.5 rounded-xl transition glow-green">
+                    Заказать расчет
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ГЛАВНЫЙ ЭКРАН (HERO) -->
+    <section class="relative hero-bg pt-10 pb-16 lg:py-20 border-b border-white/5 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+                
+                <!-- Левая колонка: Текст и УТП -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs sm:text-sm font-medium">
+                        <i class="fa-solid fa-shield-halved text-emerald-400"></i>
+                        <span>Официальные системы MUST и Blue Carbon (BCT)</span>
+                    </div>
+
+                    <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] uppercase">
+                        Энергонезависимость <br>
+                        <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-blue-400 bg-clip-text text-transparent">вашего дома, квартиры и бизнеса</span>
+                    </h1>
+
+                    <p class="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl">
+                        Сделайте энергию своей. Индивидуальный подбор, комплектация и поставка солнечных инверторов, гибридных ИБП и долговечных систем хранения <b class="text-white">LiFePO4 (6000+ циклов)</b> на заказ. Любой лот из каталога — <b class="text-emerald-400">100 ₽</b>.
+                    </p>
+
+                    <!-- Кнопки действия -->
+                    <div class="flex flex-wrap items-center gap-4 pt-2">
+                        <a href="#configurator" class="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-extrabold px-6 sm:px-8 py-4 rounded-2xl text-sm sm:text-base transition transform hover:-translate-y-0.5 glow-amber flex items-center gap-2.5">
+                            <i class="fa-solid fa-sliders"></i>
+                            <span>Подобрать станцию за 1 минуту</span>
+                        </a>
+                        <a href="#catalog" class="bg-white/5 hover:bg-white/10 border border-white/15 text-white font-semibold px-6 sm:px-8 py-4 rounded-2xl text-sm sm:text-base transition flex items-center gap-2">
+                            <span>Каталог систем (17 позиций)</span>
+                            <i class="fa-solid fa-arrow-down text-emerald-400 text-sm"></i>
+                        </a>
+                    </div>
+
+                    <!-- Преимущества в цифрах -->
+                    <div class="grid grid-cols-3 gap-4 pt-6 border-t border-white/10">
+                        <div>
+                            <div class="text-xl sm:text-2xl font-extrabold text-emerald-400">1 – 45 кВт·ч</div>
+                            <div class="text-xs text-slate-400 mt-0.5">Емкость систем хранения</div>
+                        </div>
+                        <div>
+                            <div class="text-xl sm:text-2xl font-extrabold text-amber-400">6000+ циклов</div>
+                            <div class="text-xs text-slate-400 mt-0.5">Ресурс ячеек LiFePO4</div>
+                        </div>
+                        <div>
+                            <div class="text-xl sm:text-2xl font-extrabold text-blue-400">100 ₽</div>
+                            <div class="text-xs text-slate-400 mt-0.5">Единая цена каждого лота</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Правая колонка: Визуальная 3D/SVG композиция энергостанции -->
+                <div class="lg:col-span-5">
+                    <div class="glass-card rounded-3xl p-6 relative border border-emerald-500/30 glow-green">
+                        <div class="absolute -top-3 right-6 bg-gradient-to-r from-emerald-500 to-teal-500 text-slate-950 text-xs font-extrabold px-3 py-1 rounded-full uppercase">
+                            Готовые решения на заказ
+                        </div>
+
+                        <!-- Иллюстрация умной энергетической экосистемы -->
+                        <div class="bg-dark-950/90 rounded-2xl p-5 border border-white/10">
+                            <div class="flex items-center justify-between text-xs text-slate-400 mb-4 pb-3 border-b border-white/10">
+                                <span class="flex items-center gap-1.5 text-emerald-400 font-semibold">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span> Система активна (Чистый синус)
+                                </span>
+                                <span class="font-mono text-slate-300">Переключение: 10 мс</span>
+                            </div>
+
+                            <!-- Схема потоков энергии -->
+                            <div class="grid grid-cols-2 gap-3 my-2">
+                                <div class="bg-slate-900/90 border border-amber-500/30 rounded-xl p-3.5 flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-lg bg-amber-500/20 flex items-center justify-center text-amber-400 text-lg">
+                                        <i class="fa-solid fa-solar-panel"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-[11px] text-slate-400">Солнечное поле PV</div>
+                                        <div class="text-sm font-bold text-white">До 32 000 Вт</div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-slate-900/90 border border-blue-500/30 rounded-xl p-3.5 flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400 text-lg">
+                                        <i class="fa-solid fa-plug-circle-bolt"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-[11px] text-slate-400">Сеть / Генератор</div>
+                                        <div class="text-sm font-bold text-white">220В / 380В (3 фазы)</div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-slate-900/90 border border-emerald-500/30 rounded-xl p-3.5 flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400 text-lg">
+                                        <i class="fa-solid fa-car-battery"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-[11px] text-slate-400">Накопитель LiFePO4</div>
+                                        <div class="text-sm font-bold text-white">12В / 24В / 48В (51.2В)</div>
+                                    </div>
+                                </div>
+
+                                <div class="bg-slate-900/90 border border-purple-500/30 rounded-xl p-3.5 flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-400 text-lg">
+                                        <i class="fa-solid fa-wifi"></i>
+                                    </div>
+                                    <div>
+                                        <div class="text-[11px] text-slate-400">Умный мониторинг</div>
+                                        <div class="text-sm font-bold text-white">Wi-Fi / Bluetooth / BMS</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Выделенный промо-блок внутри карточки -->
+                            <div class="mt-4 bg-gradient-to-r from-emerald-950/90 via-slate-900 to-blue-950/90 border border-emerald-500/40 rounded-xl p-4 flex items-center justify-between gap-3">
+                                <div>
+                                    <span class="text-[11px] uppercase tracking-wider text-amber-400 font-bold block">Популярный выбор</span>
+                                    <h3 class="text-base font-bold text-white">MUST PV18-3224 VPM II (3.2 кВт)</h3>
+                                    <p class="text-xs text-slate-300">MPPT 60А • Чистый синус • ИБП 10 мс</p>
+                                </div>
+                                <div class="text-right shrink-0">
+                                    <div class="text-lg font-black text-emerald-400">100 ₽</div>
+                                    <button onclick="openOrderModal('MUST PV18-3224 VPM II (3.2 кВт) — 100 ₽')" class="mt-1 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs px-3 py-1.5 rounded-lg transition">
+                                        Заказать
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Прямая плашка контактов -->
+                        <div class="mt-4 flex flex-wrap items-center justify-between gap-2 text-xs text-slate-300 px-1">
+                            <span><i class="fa-brands fa-telegram text-blue-400 mr-1"></i> Прямая связь: <a href="https://t.me/Maxim1brd" target="_blank" class="text-white font-bold underline hover:text-emerald-400">@Maxim1brd</a></span>
+                            <span><i class="fa-solid fa-phone text-emerald-400 mr-1"></i> Тел.: <b class="text-white">+7НомерБудет</b></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ИНТЕРАКТИВНЫЙ КОНФИГУРАТОР ("СОБЕРИТЕ СВОЮ ЭНЕРГОСТАНЦИЮ") -->
+    <section id="configurator" class="py-16 bg-dark-900/60 border-b border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-10">
+                <span class="text-emerald-400 text-xs font-bold uppercase tracking-widest">Умный калькулятор</span>
+                <h2 class="text-2xl sm:text-4xl font-black text-white mt-1">Соберите свою энергостанцию</h2>
+                <p class="text-slate-400 text-sm sm:text-base mt-2">
+                    Укажите параметры вашего объекта и желаемый запас энергии — алгоритм мгновенно подберет оптимальную станцию или комплект из нашего каталога.
+                </p>
+            </div>
+
+            <div class="glass-card rounded-3xl p-6 sm:p-8 lg:p-10 border border-emerald-500/30 shadow-2xl">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    
+                    <!-- Левая часть: Настройки выбора -->
+                    <div class="lg:col-span-7 space-y-7">
+                        
+                        <!-- Шаг 1: Выбор объекта -->
+                        <div>
+                            <label class="block text-sm font-bold text-slate-200 mb-3">
+                                <span class="text-emerald-400 mr-1">1.</span> Выберите тип объекта:
+                            </label>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5" id="objTypeButtons">
+                                <button type="button" onclick="setConfigObject('Частный дом', 6.5, 10, '1')" class="obj-btn active bg-emerald-500 text-slate-950 font-bold py-3 px-4 rounded-xl text-xs sm:text-sm border border-emerald-400 transition flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-house"></i> Частный дом
+                                </button>
+                                <button type="button" onclick="setConfigObject('Дача', 3.2, 3.2, '1')" class="obj-btn bg-dark-800 hover:bg-dark-700 text-slate-200 font-semibold py-3 px-4 rounded-xl text-xs sm:text-sm border border-white/10 transition flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-tree"></i> Дача
+                                </button>
+                                <button type="button" onclick="setConfigObject('Квартира', 3.5, 5.0, '1')" class="obj-btn bg-dark-800 hover:bg-dark-700 text-slate-200 font-semibold py-3 px-4 rounded-xl text-xs sm:text-sm border border-white/10 transition flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-building"></i> Квартира
+                                </button>
+                                <button type="button" onclick="setConfigObject('Офис / Бизнес', 15, 30, '3')" class="obj-btn bg-dark-800 hover:bg-dark-700 text-slate-200 font-semibold py-3 px-4 rounded-xl text-xs sm:text-sm border border-white/10 transition flex items-center justify-center gap-2">
+                                    <i class="fa-solid fa-industry"></i> Бизнес / Офис
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Шаг 2: Фазность сети -->
+                        <div>
+                            <label class="block text-sm font-bold text-slate-200 mb-3">
+                                <span class="text-emerald-400 mr-1">2.</span> Тип электросети на объекте:
+                            </label>
+                            <div class="grid grid-cols-2 gap-3" id="phaseButtons">
+                                <button type="button" onclick="setConfigPhase('1')" id="phase1Btn" class="bg-emerald-500/20 border-emerald-400 text-emerald-300 font-bold py-2.5 px-4 rounded-xl text-xs sm:text-sm border transition">
+                                    ⚡ Однофазная сеть (220В)
+                                </button>
+                                <button type="button" onclick="setConfigPhase('3')" id="phase3Btn" class="bg-dark-800 border-white/10 text-slate-300 font-semibold py-2.5 px-4 rounded-xl text-xs sm:text-sm border transition">
+                                    🏭 Трехфазная сеть (380В / 400В)
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Шаг 3: Ползунок мощности -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label for="powerRange" class="text-sm font-bold text-slate-200">
+                                    <span class="text-emerald-400 mr-1">3.</span> Требуемая мощность инвертора (от 1.2 до 19.5 кВт):
+                                </label>
+                                <span id="powerValueDisplay" class="text-lg font-black text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-lg border border-emerald-500/30">6.5 кВт</span>
+                            </div>
+                            <input type="range" id="powerRange" min="1.2" max="19.5" step="0.1" value="6.5" oninput="updateConfigurator()">
+                            <div class="flex justify-between text-[11px] text-slate-400 mt-1">
+                                <span>1.2 кВт (Базовый)</span>
+                                <span>6.5 кВт (Дом)</span>
+                                <span>13 кВт (Коттедж)</span>
+                                <span>19.5 кВт (Промышленный)</span>
+                            </div>
+                        </div>
+
+                        <!-- Шаг 4: Ползунок емкости АКБ -->
+                        <div>
+                            <div class="flex justify-between items-center mb-2">
+                                <label for="batteryRange" class="text-sm font-bold text-slate-200">
+                                    <span class="text-emerald-400 mr-1">4.</span> Емкость накопителя LiFePO4 (от 2.5 до 45 кВт·ч):
+                                </label>
+                                <span id="batteryValueDisplay" class="text-lg font-black text-amber-400 bg-amber-500/10 px-3 py-1 rounded-lg border border-amber-500/30">10 кВт·ч</span>
+                            </div>
+                            <input type="range" id="batteryRange" min="2.5" max="45" step="0.5" value="10" oninput="updateConfigurator()">
+                            <div class="flex justify-between text-[11px] text-slate-400 mt-1">
+                                <span>2.5 кВт·ч</span>
+                                <span>10 кВт·ч</span>
+                                <span>15 кВт·ч</span>
+                                <span>30 кВт·ч</span>
+                                <span>45 кВт·ч (Максимум)</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Правая часть: Динамический результат подбора -->
+                    <div class="lg:col-span-5">
+                        <div class="bg-gradient-to-b from-slate-900 via-dark-950 to-slate-900 rounded-2xl p-6 border border-emerald-400/40 relative glow-green">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-xs uppercase tracking-widest font-bold text-emerald-400">Ваш комплект</span>
+                                <span id="recBadge" class="bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[11px] font-bold px-2.5 py-0.5 rounded-full">Хит подбора</span>
+                            </div>
+
+                            <h3 id="recTitle" class="text-xl sm:text-2xl font-black text-white mb-2">
+                                MUST PV19-6548 EXP + АКБ LP16-48200
+                            </h3>
+                            <p id="recDesc" class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-4">
+                                Мощный гибридный инвертор 6.5 кВт с двойным выходом, Wi-Fi и литий-железо-фосфатным накопителем 10.24 кВт·ч (6000+ циклов).
+                            </p>
+
+                            <div class="space-y-2 bg-white/5 rounded-xl p-3.5 text-xs sm:text-sm mb-5 border border-white/5">
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">Объект и сеть:</span>
+                                    <span id="recSummaryObj" class="font-semibold text-white">Частный дом (220В)</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">Выходная мощность:</span>
+                                    <span id="recSummaryPower" class="font-semibold text-emerald-400">6.5 кВт (Чистый синус)</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">Запас энергии АКБ:</span>
+                                    <span id="recSummaryBatt" class="font-semibold text-amber-400">10.24 кВт·ч LiFePO4</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-baseline justify-between mb-5">
+                                <span class="text-xs text-slate-400">Стоимость лота:</span>
+                                <div id="recPrice" class="text-2xl font-black text-emerald-400">100 ₽</div>
+                            </div>
+
+                            <button type="button" onclick="orderConfiguredSystem()" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-extrabold py-4 px-6 rounded-xl text-sm sm:text-base transition glow-amber flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-paper-plane"></i>
+                                <span>Заказать расчет / комплект</span>
+                            </button>
+                            <p class="text-[11px] text-center text-slate-400 mt-3">
+                                Заявка отправляется напрямую в Telegram <a href="https://t.me/Maxim1brd" target="_blank" class="text-emerald-400 underline">@Maxim1brd</a>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ПОЛНЫЙ КАТАЛОГ СТАНЦИЙ, ИНВЕРТОРОВ И АКБ -->
+    <section id="catalog" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+            <div>
+                <span class="text-emerald-400 text-xs font-bold uppercase tracking-widest">Официальная линейка оборудования</span>
+                <h2 class="text-2xl sm:text-4xl font-black text-white mt-1">Каталог энергостанций на заказ</h2>
+            </div>
+
+            <!-- Поиск и сортировка -->
+            <div class="flex flex-col sm:flex-row gap-3">
+                <div class="relative">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                    <input type="text" id="searchInput" oninput="renderCatalog()" placeholder="Поиск по модели (например, LP16)..." class="bg-dark-800 border border-white/15 rounded-xl pl-10 pr-4 py-2.5 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-emerald-400 w-full sm:w-64">
+                </div>
+                <select id="sortSelect" onchange="renderCatalog()" class="bg-dark-800 border border-white/15 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-400">
+                    <option value="default">По умолчанию</option>
+                    <option value="powerDesc">По убыванию мощности</option>
+                    <option value="powerAsc">По возрастанию мощности</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Табы категорий -->
+        <div class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-4 mb-6 border-b border-white/10" id="categoryTabs">
+            <button onclick="filterCatalog('all')" data-cat="all" class="cat-tab bg-emerald-500 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs sm:text-sm shrink-0 transition">
+                Все модели (17)
+            </button>
+            <button onclick="filterCatalog('inverters')" data-cat="inverters" class="cat-tab bg-dark-800 text-slate-300 hover:bg-dark-700 font-semibold px-4 py-2.5 rounded-xl text-xs sm:text-sm shrink-0 border border-white/10 transition">
+                ☀️ Инверторы MUST
+            </button>
+            <button onclick="filterCatalog('ess')" data-cat="ess" class="cat-tab bg-dark-800 text-slate-300 hover:bg-dark-700 font-semibold px-4 py-2.5 rounded-xl text-xs sm:text-sm shrink-0 border border-white/10 transition">
+                🏠 Системы «Всё в одном» (ESS)
+            </button>
+            <button onclick="filterCatalog('batteries')" data-cat="batteries" class="cat-tab bg-dark-800 text-slate-300 hover:bg-dark-700 font-semibold px-4 py-2.5 rounded-xl text-xs sm:text-sm shrink-0 border border-white/10 transition">
+                🔋 Аккумуляторы LiFePO4 (LP1600)
+            </button>
+            <button onclick="filterCatalog('bct')" data-cat="bct" class="cat-tab bg-dark-800 text-slate-300 hover:bg-dark-700 font-semibold px-4 py-2.5 rounded-xl text-xs sm:text-sm shrink-0 border border-white/10 transition">
+                💎 Станции Blue Carbon (BCT)
+            </button>
+        </div>
+
+        <!-- Сетка карточек товаров -->
+        <div id="catalogGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Генерируется через JavaScript -->
+        </div>
+    </section>
+
+    <!-- БЛОК "ПОЧЕМУ ЭНЕРГОУЮТ" И КУДА ОТПРАВЛЯЮТСЯ ЗАЯВКИ -->
+    <section id="about" class="py-16 bg-dark-900/70 border-y border-white/5">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-5 space-y-4">
+                    <span class="text-emerald-400 text-xs font-bold uppercase tracking-widest">Философия проекта и связь</span>
+                    <h2 class="text-2xl sm:text-4xl font-black text-white">ЭнергоУют — делаем энергию вашей</h2>
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                        Мы разбираем и поставляем солнечные станции, накопители, ИБП и резервные системы для частного дома, квартиры и бизнеса.
+                    </p>
+                    <div class="bg-blue-500/10 border border-blue-500/30 rounded-2xl p-4 text-xs sm:text-sm text-slate-200 space-y-1.5">
+                        <div class="font-bold text-blue-400 flex items-center gap-2">
+                            <i class="fa-brands fa-telegram text-base"></i> Как работает отправка заявки с сайта:
+                        </div>
+                        <p class="text-slate-300 leading-relaxed">
+                            1. При оформлении заказа сайт автоматически формирует карточку вашей заявки и открывает чат с менеджером <a href="https://t.me/Maxim1brd" target="_blank" class="text-white font-bold underline">@Maxim1brd</a> с уже готовым текстом.<br>
+                            2. Дополнительно встроен модуль прямой отправки через <b>Telegram Bot API</b> — все заявки моментально прилетают владельцу в Telegram.
+                        </p>
+                    </div>
+                    <div class="pt-2 flex flex-wrap gap-3">
+                        <a href="https://t.me/Maxim1brd" target="_blank" class="bg-blue-600 hover:bg-blue-500 text-white font-bold px-5 py-3 rounded-xl text-sm transition flex items-center gap-2 glow-blue">
+                            <i class="fa-brands fa-telegram text-lg"></i>
+                            <span>Написать @Maxim1brd</span>
+                        </a>
+                        <a href="tel:+7НомерБудет" class="bg-white/5 hover:bg-white/10 border border-white/15 text-white font-semibold px-5 py-3 rounded-xl text-sm transition flex items-center gap-2">
+                            <i class="fa-solid fa-phone text-emerald-400"></i>
+                            <span>+7НомерБудет</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="glass-card p-5 rounded-2xl border border-white/10">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-lg mb-3">
+                            <i class="fa-solid fa-bolt-lightning"></i>
+                        </div>
+                        <h3 class="font-bold text-white text-base mb-1">100% Чистый синус и ИБП 10 мс</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Безопасное питание газовых котлов, насосов, серверов, холодильников и компьютеров без перезагрузки при отключении внешней сети.
+                        </p>
+                    </div>
+
+                    <div class="glass-card p-5 rounded-2xl border border-white/10">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-lg mb-3">
+                            <i class="fa-solid fa-battery-full"></i>
+                        </div>
+                        <h3 class="font-bold text-white text-base mb-1">Ячейки LiFePO4 (6000+ циклов)</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Литий-железо-фосфатные аккумуляторы класса А со встроенной платой BMS, связью по CAN/RS485 и сроком службы более 10–15 лет.
+                        </p>
+                    </div>
+
+                    <div class="glass-card p-5 rounded-2xl border border-white/10">
+                        <div class="w-10 h-10 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-lg mb-3">
+                            <i class="fa-solid fa-network-wired"></i>
+                        </div>
+                        <h3 class="font-bold text-white text-base mb-1">Гибкое масштабирование</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Параллельное объединение до 6–10 инверторов (в 1 или 3 фазы) и до 40 аккумуляторных модулей LP1600 в единую сеть.
+                        </p>
+                    </div>
+
+                    <div class="glass-card p-5 rounded-2xl border border-white/10">
+                        <div class="w-10 h-10 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-lg mb-3">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                        </div>
+                        <h3 class="font-bold text-white text-base mb-1">Облачный Wi-Fi & Bluetooth</h3>
+                        <p class="text-xs text-slate-400 leading-relaxed">
+                            Полный контроль генерации солнечных панелей, заряда батарей и потребления дома в реальном времени через смартфон или ПК.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- НИЖНЯЯ ФОРМА ЗАЯВКИ И КОНТАКТЫ (FOOTER) -->
+    <footer id="contacts" class="pt-16 pb-12 bg-dark-950 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Баннер быстрой заявки -->
+            <div class="glass-card rounded-3xl p-6 sm:p-10 border border-emerald-500/30 mb-12 relative overflow-hidden">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                    <div class="lg:col-span-6 space-y-2">
+                        <span class="text-amber-400 text-xs font-bold uppercase tracking-wider">Все лоты по 100 ₽</span>
+                        <h3 class="text-2xl sm:text-3xl font-black text-white">Оставьте заявку на бесплатный расчет</h3>
+                        <p class="text-slate-300 text-sm">
+                            Заполните форму — заявка сразу отправится нашему менеджеру <b>@Maxim1brd</b> в Telegram.
+                        </p>
+                    </div>
+                    <div class="lg:col-span-6">
+                        <form onsubmit="submitQuickFooterForm(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                            <input type="text" id="footerName" required placeholder="Ваше имя" class="bg-dark-900 border border-white/15 rounded-xl px-4 py-3.5 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-emerald-400">
+                            <input type="text" id="footerContact" required placeholder="Телефон или @Telegram" class="bg-dark-900 border border-white/15 rounded-xl px-4 py-3.5 text-sm text-white placeholder-slate-400 focus:outline-none focus:border-emerald-400">
+                            <button type="submit" class="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-extrabold py-3.5 px-6 rounded-xl text-sm transition glow-amber">
+                                Заказать
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Нижняя часть футера -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 pb-8 border-b border-white/10">
+                <div>
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 rounded-xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center">
+                            <i class="fa-solid fa-house-chimney text-emerald-400"></i>
+                        </div>
+                        <span class="text-xl font-extrabold text-white">ЭнергоУют</span>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        ЭнергоУют — проект про энергонезависимость частного дома, квартиры и вашего бизнеса: солнечные панели, аккумуляторы LiFePO4, инверторы и резервное питание.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-3">Категории оборудования</h4>
+                    <ul class="space-y-2 text-xs text-slate-400">
+                        <li><a href="#catalog" onclick="filterCatalog('all')" class="hover:text-amber-400 transition">🔥 Все лоты по 100 ₽</a></li>
+                        <li><a href="#catalog" onclick="filterCatalog('inverters')" class="hover:text-emerald-400 transition">Солнечные инверторы MUST PV1800 / PV1900 / PH1100</a></li>
+                        <li><a href="#catalog" onclick="filterCatalog('ess')" class="hover:text-emerald-400 transition">Системы «Всё в одном» HBP1800 и HBP1900 VPM</a></li>
+                        <li><a href="#catalog" onclick="filterCatalog('batteries')" class="hover:text-emerald-400 transition">Аккумуляторы LiFePO4 MUST LP1600 (до 30.72 кВт·ч)</a></li>
+                        <li><a href="#catalog" onclick="filterCatalog('bct')" class="hover:text-emerald-400 transition">Модульные станции Blue Carbon (BCT) 15 / 30 / 45 кВт·ч</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-3">Контакты для заказа</h4>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-lg bg-emerald-500/15 text-emerald-400 flex items-center justify-center">
+                                <i class="fa-solid fa-phone"></i>
+                            </div>
+                            <div>
+                                <div class="text-[11px] text-slate-400">Телефон для связи:</div>
+                                <a href="tel:+7НомерБудет" class="font-bold text-white hover:text-emerald-400 transition">+7НомерБудет</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            <div class="w-9 h-9 rounded-lg bg-blue-500/15 text-blue-400 flex items-center justify-center">
+                                <i class="fa-brands fa-telegram"></i>
+                            </div>
+                            <div>
+                                <div class="text-[11px] text-slate-400">Менеджер в Telegram:</div>
+                                <a href="https://t.me/Maxim1brd" target="_blank" rel="noopener noreferrer" class="font-bold text-blue-400 hover:underline">@Maxim1brd</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+                <div>© 2025–2026 «ЭнергоУют». Все права защищены.</div>
+                <div>Оборудование сертифицировано: CE, ISO, UN38.3, IP66</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- МОДАЛЬНОЕ ОКНО: ОФОРМЛЕНИЕ ЗАКАЗА -->
+    <div id="orderModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="glass-card border border-emerald-500/40 rounded-3xl max-w-lg w-full p-6 sm:p-8 relative shadow-2xl animate-fadeIn">
+            <button onclick="closeOrderModal()" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/5 hover:bg-white/15 text-slate-300 flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+
+            <div class="flex items-center gap-2.5 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-2">
+                <i class="fa-solid fa-bolt"></i>
+                <span>Оформление заказа на станцию</span>
+            </div>
+            <h3 class="text-xl sm:text-2xl font-black text-white mb-2">Заявка в «ЭнергоУют»</h3>
+
+            <div class="bg-emerald-500/10 border border-emerald-500/30 rounded-xl p-3.5 mb-5 flex items-center justify-between gap-3">
+                <div>
+                    <div class="text-[11px] text-slate-400 uppercase">Выбранная позиция / конфигурация:</div>
+                    <div id="modalSelectedProduct" class="text-sm sm:text-base font-bold text-emerald-300 mt-0.5">MUST PV18-3224 VPM II</div>
+                </div>
+                <div class="text-right shrink-0">
+                    <span class="text-[10px] text-slate-400 block">Цена лота:</span>
+                    <span class="text-lg font-black text-white">100 ₽</span>
+                </div>
+            </div>
+
+            <form id="orderForm" onsubmit="handleOrderSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Ваше имя *</label>
+                    <input type="text" id="clientName" required placeholder="Иван" class="w-full bg-dark-900 border border-white/15 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-400">
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Телефон *</label>
+                        <input type="tel" id="clientPhone" required placeholder="+7 (___) ___-__-__" class="w-full bg-dark-900 border border-white/15 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-400">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Ваш Telegram (если есть)</label>
+                        <input type="text" id="clientTg" placeholder="@username" class="w-full bg-dark-900 border border-white/15 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-400">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1">Комментарий к заказу</label>
+                    <textarea id="clientComment" rows="2" placeholder="Ваши пожелания или вопросы по комплектации..." class="w-full bg-dark-900 border border-white/15 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-400"></textarea>
+                </div>
+
+                <button type="submit" class="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-extrabold py-3.5 rounded-xl text-sm sm:text-base transition glow-green flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-telegram text-lg"></i>
+                    <span>Отправить заявку в Telegram (@Maxim1brd)</span>
+                </button>
+            </form>
+
+            <!-- Блок успешного формирования заявки с переходом в Telegram -->
+            <div id="orderSuccessBox" class="hidden mt-4 pt-4 border-t border-white/10 space-y-3">
+                <div id="orderStatusAlert" class="text-xs text-emerald-300 bg-emerald-500/15 border border-emerald-500/30 rounded-xl p-3">
+                    ✅ <b>Заявка сформирована и скопирована!</b> Сейчас откроется диалог с менеджером <b>@Maxim1brd</b> в Telegram с уже готовым текстом вашего заказа.
+                </div>
+                <div class="flex flex-col sm:flex-row gap-2.5">
+                    <a id="tgDirectOrderLink" href="https://t.me/Maxim1brd" target="_blank" rel="noopener noreferrer" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-bold py-3 px-4 rounded-xl text-xs sm:text-sm text-center transition flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-telegram text-base"></i>
+                        <span>Открыть чат с @Maxim1brd</span>
+                    </a>
+                    <button type="button" onclick="copyOrderTextAgain()" class="bg-white/10 hover:bg-white/20 text-white font-semibold py-3 px-4 rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-1.5">
+                        <i class="fa-regular fa-copy"></i>
+                        <span id="copyBtnLabel">Скопировать текст</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="mt-5 pt-4 border-t border-white/10 flex items-center justify-between text-xs text-slate-400">
+                <span>Прямой контакт: <b class="text-white">+7НомерБудет</b></span>
+                <a href="https://t.me/Maxim1brd" target="_blank" class="text-blue-400 hover:underline font-semibold"><i class="fa-brands fa-telegram mr-1"></i>@Maxim1brd</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛЬНОЕ ОКНО: ПОДРОБНЫЕ ХАРАКТЕРИСТИКИ ТОВАРА -->
+    <div id="specsModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="glass-card border border-white/15 rounded-3xl max-w-2xl w-full p-6 sm:p-8 relative shadow-2xl max-h-[90vh] overflow-y-auto">
+            <button onclick="closeSpecsModal()" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/5 hover:bg-white/15 text-slate-300 flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark text-lg"></i>
+            </button>
+            <div id="specsModalContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // =========================================================================
+        // НАСТРОЙКА КУДА ОТПРАВЛЯЮТСЯ ЗАЯВКИ С САЙТА:
+        // Способ 1 (работает сразу): Прямая переадресация клиента в Telegram-чат @Maxim1brd
+        // с уже заполненным текстом заявки (?text=...) + автокопирование в буфер.
+        // Способ 2 (фоновая отправка через будущего ТГ-бота): Когда мы создадим бота на следующем шаге,
+        // достаточно вписать сюда его BOT_TOKEN и ваш личный CHAT_ID — и заявки будут прилетать вам в бота автоматически!
+        // =========================================================================
+        const TELEGRAM_CONFIG = {
+            managerUsername: 'Maxim1brd',
+            botToken: '', // Сюда можно вставить токен от @BotFather (например: '123456:ABC-DEF...')
+            chatId: ''    // Сюда можно вставить ваш Telegram ID, куда бот будет слать заявки
+        };
+
+        // ПОЛНАЯ БАЗА ИЗ 17 ТОВАРОВ (ЦЕНА КАЖДОГО ЛОТА = 100 ₽, БЕЗ УПОМИНАНИЙ НАЛИЧИЯ)
+        const products = [
+            {
+                id: 'pv18-3224',
+                name: 'MUST PV18-3224 VPM II (3.2 кВт)',
+                category: 'inverters',
+                badge: '☀️ Инвертор 24В',
+                brand: 'MUST',
+                powerKw: 3.2,
+                batteryKwh: 0,
+                phase: '1',
+                voltage: '24 В',
+                price: 100,
+                priceFormatted: '100 ₽',
+                shortDesc: 'Компактный высокочастотный солнечный инвертор с чистой синусоидой, контроллером MPPT 60А и режимом ИБП (10 мс).',
+                specs: [
+                    ['Номинальная мощность', '3200 Вт / 3200 ВА (пиковая 6400 ВА)'],
+                    ['Напряжение системы АКБ', '24 В DC'],
+                    ['Форма выходного сигнала', '100% Чистая синусоида (230В AC)'],
+                    ['Солнечный контроллер MPPT', '60 А (мощность панелей до 1600 Вт, диапазон MPPT 30–128 В, Voc до 160 В)'],
+                    ['Макс. ток заряда (сеть + солнце)', '100 А (сетевой заряд до 40 А)'],
+                    ['Время переключения', '10 мс (ИБП) / 20 мс (бытовая техника)'],
+                    ['Особенности', 'Холодный старт, поддержка генератора, связь с BMS, ЖК-дисплей'],
+                    ['Габариты и вес', '290 × 367.4 × 121 мм, вес нетто 5.5 кг']
+                ]
+            },
+            {
+                id: 'pv19-6548',
+                name: 'MUST PV19-6548 EXP (6.5 кВт)',
+                category: 'inverters',
+                badge: '⚡ Dual Output + Wi-Fi',
+                brand: 'MUST',
+                powerKw: 6.5,
+                batteryKwh: 0,
+                phase: '1',
+                voltage: '48 В',
+                price: 100,
+                priceFormatted: '100 ₽',
+                shortDesc: 'Мощный инвертор с двойным выходом (Dual Output), платой параллельного подключения, 2 трекерами MPPT до 9000 Вт и встроенными Wi-Fi + Bluetooth.',
+                specs: [
+                    ['Номинальная мощность', '6500 Вт (при PV > 1000 Вт) / 6000 Вт (режим АКБ)'],
+                    ['Система аккумуляторов', '48 В DC (поддержка LiFePO4, AGM, GEL, Lead)'],
+                    ['Двойной выход (Dual Output)', 'Раздельное питание основной (L1) и второй (L2) нагрузки'],
+                    ['Солнечный вход MPPT', 'MPPT × 2, мощность солнечного поля до 9000 Вт, диапазон 60–430 В (Voc до 500 В)'],
+                    ['Максимальный ток заряда', '120 А (солнце) / 80–100 А (сеть)'],
+                    ['Коммуникации и параллель', 'Встроенный Wi-Fi, Bluetooth, порт BMS (CAN/RS485), плата параллели в комплекте'],
+                    ['Габариты и вес', '455 × 331 × 137.5 мм, вес 10.3 кг']
+                ]
+            },
+            {
+                id: 'pv19-10048',
+                name: 'MUST PV19-10048 EXP (10 кВт)',
+                category: 'inverters',
+                badge: '🔥 Мощность 10 кВт',
+                brand: 'MUST',
+                powerKw: 10.0,
+                batteryKwh: 0,
+                phase: '1',
+                voltage: '48 В',
+                price: 100,
+                priceFormatted: '100 ₽',
+                shortDesc: 'Флагман серии PV1900 EXP на 10 кВт (пик 20 кВт) с двумя независимыми MPPT по 5000 Вт, умным двойным выходом и параллелью до 6 устройств.',
+                specs: [
+                    ['Номинальная мощность', '10 000 Вт / 10 000 ВА (пиковая 20 000 Вт)'],
+                    ['Стандартное напряжение АКБ', '48 В DC'],
+                    ['Двойной MPPT трекер', '2 × 5000 Вт (до 10 000 Вт суммарно), диапазон 90–450 В DC (Voc 500 В)'],
+                    ['Максимальный ток заряда', '150 А (солнечный и сетевой)'],
+                    ['Масштабируемость', 'Параллельное подключение до 6 инверторов'],
+                    ['Управление', 'Цветной LCD дисплей, двухвыходная архитектура нагрузок, USB/RS485/Wi-Fi'],
+                    ['Габариты и вес', '425 × 527 × 145 мм, вес нетто 18.0 кг']
+                ]
+            },
+            {
+                id: 'hbp19-3524',
+                name: 'MUST HBP19-3524 VPM (Всё в одном)',
+                category: 'ess',
+                badge: '🏠 Всё в одном 3.2 кВт·ч',
+                brand: 'MUST',
+                powerKw: 3.5,
+                batteryKwh: 3.2,
+                phase: '1',
+                voltage: '25.6 В',
+                price: 100,
+                priceFormatted: '100 ₽',
+                shortDesc: 'Готовая станция «Всё в одном»: инвертор 3.5 кВт + встроенный долговечный аккумулятор LiFePO4 на 3200 Вт·ч в едином корпусе.',
+                specs: [
+                    ['Мощность инвертора', '3500 Вт / 3500 ВА, чистая синусоида'],
+                    ['Встроенная АКБ LiFePO4', '3200 Вт·ч (25.6 В / 125 А·ч), ресурс 6000+ циклов при 80% DOD'],
+                    ['Солнечное зарядное MPPT', 'Мощность панелей до 4000 Вт, диапазон 30–320 В (Voc 400 В), ток заряда 100 А'],
+                    ['Время переключения', '10 мс (ИБП) / 20 мс (APL)'],
+                    ['Монтаж и связь', 'Настенная или напольная установка, встроенный Wi-Fi и BMS'],
+                    ['Габариты и вес', '486 × 640 × 160 мм, масса нетто 41 кг'],
+                    ['Гарантия', 'Инвертор: 2 года, Литиевая батарея: 5 лет']
+                ]
+            },
+            {
+                id: 'hbp19-5548',
+                name: 'MUST HBP19-5548 VPM (Всё в одном)',
+                category: 'ess',
+                badge: '🏠 Всё в одном 5.12 кВт·ч',
+                brand: 'MUST',
+                powerKw: 5.5,
+                batteryKwh: 5.12,
+                phase: '1',
+                voltage: '51.2 В',
+                price: 100,
+                priceFormatted: '100 ₽',
+                shortDesc: 'Старшая энергостанция «Всё в одном»: инвертор 5.5 кВт + встроенный аккумулятор LiFePO4 5120 Вт·ч (51.2В 100Ач) и MPPT до 6000 Вт.',
+                specs: [
+                    ['Мощность инвертора', '5500 Вт / 5500 ВА, чистая синусоида'],
+                    ['Встроенная АКБ LiFePO4', '5120 Вт·ч (51.2 В / 100 А·ч), ресурс 6000+ циклов (80% DOD, 25°C)'],
+                    ['Солнечный контроллер MPPT', 'Мощность панелей до 6000 Вт, диапазон 60–360 В (Voc 450 В), ток до 100 А'],
+                    ['Коммуникации', 'Цветной дисплей, встроенный Wi-Fi и интеллектуальная BMS'],
+                    ['Режим установки', 'Настенный или напольный монтаж без внешних силовых проводов'],
+                    ['Габариты и вес', '486 × 850 × 160 мм, масса нетто 58 кг'],
+                    ['Гарантия', 'Инвертор: 2 года, Литиевая батарея: 5 лет']
+                ]
+            },
+            {
+                id: 'lp16-48100',
+                name: 'АКБ MUST LP16-48100 (5.12 кВт·ч)',
+                category: 'batteries',
+                badge: '🔋 LiFePO4 100 А·ч',
+                brand: 'MUST',
+                powerKw: 5.0,
+                batteryKwh: 5.12,
+                phase: '1',
+                voltage: '51.2 В (100 А·ч)',
+                price: 100,
+                priceFormatted: '100 ₽',
+                shortDesc: 'Литий-железо-фосфатный аккумуляторный модуль 51.2В 100Ач (5.12 кВт·ч) со встроенным Wi-Fi/Bluetooth и ресурсом ≥6000 циклов.',
+                specs: [
+                    ['Номинальная энергия и емкость', '5120 Вт·ч (51.2 В / 100 А·ч)'],
+                    ['Жизненный цикл', '≥ 6000 циклов (при 80% DOD, 25°C)'],
+                    ['Максимальный непрерывный ток', '100 А заряд / 100 А разряд'],
+                    ['Масштабирование', 'До 40 модулей параллельно'],
+                    ['Связь и мониторинг', 'Встроенный Wi-Fi / Bluetooth, порты CAN 2.0 / RS485 / RS232'],
+                    ['Варианты монтажа', 'Настенный, в стопку, в стойку'],
+                    ['Гарантия', '5 лет']
+                ]
+            },
+            {
+                id: 'lp16-48200',
+                name: 'АКБ MUST LP16-48200 (10.24 кВт·ч)',
+                category: 'batteries',
+                badge: '🔋 LiFePO4 200 А·ч',
+                brand: 'MUST',
+                powerKw: 7.5,
+                batteryKwh: 10.24,
+                phase: '1',
+                voltage: '51.2 В (200 А·ч)',
+                price: 100,
+                priceFormatted: '100 ₽',
+                shortDesc: 'Емкий накопитель LiFePO4 на 10.24 кВт·ч (51.2В 200Ач), выдающий до 7.5 кВт мощности. Поддержка до 40 блоков в параллель.',
+                specs: [
+                    ['Номинальная энергия и емкость', '10 240 Вт·ч (51.2 В / 200 А·ч)'],
+                    ['Максимальная выходная мощность', '7.5 кВт (ток разряда до 150 А)'],
+                    ['Жизненные циклы', '≥ 6000 циклов (80% DOD)'],
+                    ['Умная интеграция', 'CAN 2.0 / RS485 / RS232 + удаленный мониторинг Wi-Fi / Bluetooth'],
+                    ['Защита BMS', 'От перезаряда, глубокого разряда, КЗ, перегрузки и температур'],
+                    ['Вес нетто', '79 кг (корпус SPCC, IP21)']
+                ]
+            },
+            {
+                id: 'lp16-48300',
+                name: 'АКБ MUST LP16-48300 (15.36 кВт·ч)',
+                category: 'batteries',
+                badge: '🔋 LiFePO4 300 А·ч',
+                brand: 'MUST',
+                powerKw: 10.0,
+                batteryKwh: 15.36,
+                phase: '1',
+                voltage: '51.2 В (300 А·ч)',
+                price: 100,
+                priceFormatted: '100 ₽',
+                shortDesc: 'Мощный аккумуляторный блок LiFePO4 15.36 кВт·ч (51.2В 300Ач) с отдачей до 10 кВт (ток 200А) для полной автономии коттеджа.',
+                specs: [
+                    ['Номинальная энергия и емкость', '15 360 Вт·ч (51.2 В / 300 А·ч)'],
+                    ['Максимальная выходная мощность', '10 кВт (непрерывный ток до 200 А)'],
+                    ['Жизненные циклы', '≥ 6000 циклов (80% DOD)'],
+                    ['Масштабируемость', 'Параллельное соединение до 40 единиц'],
+                    ['Интерфейсы', 'CAN 2.0 / RS485 / RS232, встроенный Wi-Fi и Bluetooth'],
+                    ['Вес нетто', '117 кг']
+                ]
+            },
+            {
+                id: 'lp16-48600',
+                name: 'АКБ MUST LP16-48600 (30.72 кВт·ч)',
+                category: 'batteries',
+                badge: '🔋 Мега-емкость 600 А·ч',
+                brand: 'MUST',
+                powerKw: 10.0,
+                batteryKwh: 30.72,
+                phase: '1',
+                voltage: '51.2 В (600 А·ч)',
+                price: 100,
+                priceFormatted: '100 ₽',
+                shortDesc: 'Сверхъемкий промышленно-бытовой накопитель серии LP1600 на 30.72 кВт·ч (600 А·ч) с поддержкой параллели до 40 модулей.',
+                specs: [
+                    ['Номинальная энергия и емкость', '30 720 Вт·ч (51.2 В / 600 А·ч)'],
+                    ['Максимальная выходная мощность', '10 кВт (ток до 200 А)'],
+                    ['Ресурс', '≥ 6000 циклов при 80% DOD'],
+                    ['Связь', 'Wi-Fi, Bluetooth, CAN 2.0, RS485, RS232'],
+                    ['Габариты', '744 × 1090 × 284 мм']
+                ]
+            },
+            {
+                id: 'ph1100-eu',
+                name: 'Серия MUST PH1100 EU (5–16 кВт, 3 фазы)',
+                category: 'inverters',
+                badge: '🏭 Трехфазный IP66',
+                brand: 'MUST',
+                powerKw: 16.0,
+                batteryKwh: 0,
+                phase: '3',
+                voltage: '380/400 В (АКБ 48В)',
+                price: 100,
+                priceFormatted: '100 ₽',
+                shortDesc: 'Профессиональные трехфазные гибридные инверторы (модели 5 / 6.5 / 8 / 10 / 12 / 13 / 14.2 / 15 / 16 кВт) с защитой IP66 и током до 320А.',
+                specs: [
+                    ['Модельный ряд мощности', '5 кВт, 6.5 кВт, 8 кВт, 10 кВт, 12 кВт, 13 кВт, 14.2 кВт, 15 кВт, 16 кВт'],
+                    ['Трехфазная сеть', '220/380 В, 230/400 В AC, поддержка 100% несимметричной нагрузки по фазам'],
+                    ['Батарейный интерфейс', 'Низковольтная безопасная шина 48 В (ток заряда/разряда от 120 А до 320 А!)'],
+                    ['Солнечный вход (2 трекера MPPT)', 'Мощность PV от 10 000 Вт до 32 000 Вт, напряжение до 800 В, КПД до 97.6%'],
+                    ['Дополнительные порты', 'Отдельный вход генератора / выход Smart Load / вход микроинвертора'],
+                    ['Масштабирование и защита', 'До 10 устройств параллельно, датчики тока CT (антирефлюкс) в комплекте, корпус IP66, гарантия 5 лет']
+                ]
+            },
+            {
+                id: 'pv1800-pro',
+                name: 'Серия MUST PV1800 PRO (2–6.2 кВт)',
+                category: 'inverters',
+                badge: '☀️ Работает без АКБ',
+                brand: 'MUST',
+                powerKw: 6.2,
+                batteryKwh: 0,
+                phase: '1',
+                voltage: '12В / 24В / 48В',
+                price: 100,
+                priceFormatted: '100 ₽',
+                shortDesc: 'Универсальные инверторы (2 / 3.6 / 4 / 6 / 6.2 кВт) с двойным выходом и способностью работать напрямую от солнечных панелей даже без батареи.',
+                specs: [
+                    ['Модели в серии', 'PV18-2012 PRO (2 кВт, 12В) | 3624 PRO (3.6 кВт, 24В) | 4024 PRO (4 кВт, 24В) | 6048 PRO (6 кВт, 48В) | 6248 PRO (6.2 кВт, 48В)'],
+                    ['Работа без аккумулятора', 'Поддерживается прямое питание нагрузки от солнечных панелей'],
+                    ['Двойной выход AC', 'Приоритетное управление основной и второстепенной нагрузкой'],
+                    ['Солнечный контроллер MPPT', 'Мощность PV до 6000–6200 Вт, напряжение до 450–500 В, заряд до 100–120 А'],
+                    ['Интерфейсы связи', 'USB, RS485, CAN (связь с BMS литиевых АКБ), Wi-Fi']
+                ]
+            },
+            {
+                id: 'hbp1800-compact',
+                name: 'MUST HBP1800 Компакт (1.2–3.0 кВт ESS)',
+                category: 'ess',
+                badge: '🔌 4 розетки + USB/Type-C',
+                brand: 'MUST',
+                powerKw: 3.0,
+                batteryKwh: 7.16,
+                phase: '1',
+                voltage: '12В / 24В',
+                price: 100,
+                priceFormatted: '100 ₽',
+                shortDesc: 'Мобильно-бытовые станции со встроенной АКБ LiFePO4 (от 1.28 до 7.16 кВт·ч), 4 евророзетками 230В и 11 портами DC/USB/Type-C на корпусе.',
+                specs: [
+                    ['Модификации', 'HBP18-1212 (1.2 кВт / 1.28 кВт·ч), HBP18-2024 (2 кВт / 2.56–3.2 кВт·ч), HBP18-3024 (3 кВт / 7.16 кВт·ч)'],
+                    ['Ресурс аккумулятора LiFePO4', '6000+ циклов при 80% DOD (25°C)'],
+                    ['Выходные разъемы на корпусе', '4 розетки 230В AC + Type-C (1 шт.), USB 5В 2.4А (4 шт.), выходы 12В DC'],
+                    ['Солнечный контроллер MPPT', 'Мощность панелей до 900–1800 Вт, ток заряда 60 А, КПД до 98%'],
+                    ['Время переключения', '10 мс (режим ИБП)']
+                ]
+            },
+            {
+                id: 'hbp1800-stat',
+                name: 'MUST HBP1800 Стационар (5.5–10 кВт | 15.36 кВт·ч)',
+                category: 'ess',
+                badge: '⚡ Комплекс 15.36 кВт·ч',
+                brand: 'MUST',
+                powerKw: 10.0,
+                batteryKwh: 15.36,
+                phase: '1',
+                voltage: '51.2 В (300 А·ч)',
+                price: 100,
+                priceFormatted: '100 ₽',
+                shortDesc: 'Тяжелая стационарная серия HBP1800 (5.5 / 8.0 / 10.0 кВт) с цветным LCD-дисплеем, встроенным Wi-Fi и мощной батареей LiFePO4 на 15.36 кВт·ч.',
+                specs: [
+                    ['Модели в линейке', 'HBP18-5548 (5.5 кВт), HBP18-8048 (8.0 кВт), HBP18-10048 (10.0 кВт, пик 20 кВт)'],
+                    ['Накопитель энергии LiFePO4', '15 360 Вт·ч (51.2 В / 300 А·ч), 6000+ циклов'],
+                    ['Солнечный вход MPPT', 'До 6000 Вт (5548), 2×4000 Вт (8048), 2×5000 Вт (10048), ток заряда до 150 А'],
+                    ['Управление и связь', 'Цветной дисплей, встроенный Wi-Fi для мониторинга, интеллектуальная BMS'],
+                    ['Гарантия', 'Инвертор: 2 года, Литиевая батарея: 3 года']
+                ]
+            },
+            {
+                id: 'bct-15kwh',
+                name: 'BCT Smart Power Station Pro (6.5 кВт | 15 кВт·ч)',
+                category: 'bct',
+                badge: '💎 Гарантия АКБ 10 лет',
+                brand: 'Blue Carbon',
+                powerKw: 6.5,
+                batteryKwh: 15.0,
+                phase: '1',
+                voltage: '220 В (51.2В 300Ач)',
+                price: 100,
+                priceFormatted: '100 ₽',
+                shortDesc: 'Монолитная модульная энергостанция Blue Carbon Technology: инвертор 6.5 кВт + аккумуляторный блок LiFePO4 на 15 кВт·ч (51.2В / 300 А·ч).',
+                specs: [
+                    ['Изготовитель', 'BLUE CARBON TECHNOLOGY INC. (BCT)'],
+                    ['Мощность и сеть', 'Однофазная система 220 В, выходная мощность 6.5 кВт'],
+                    ['Накопитель энергии', '15 кВт·ч (1 модуль 51.2 В / 300 А·ч LiFePO4)'],
+                    ['Поддержка солнечных панелей', 'От 4 до 14 фотоэлектрических модулей по 585 Вт'],
+                    ['Комплектация', 'Инвертор, АКБ, медные клеммы, разъемы MC4, сетевой кабель, крепеж'],
+                    ['Официальная гарантия', '10 лет на аккумуляторную батарею и 3 года на инвертор!']
+                ]
+            },
+            {
+                id: 'bct-30kwh',
+                name: 'BCT Smart Power Station Pro (13 кВт | 30 кВт·ч)',
+                category: 'bct',
+                badge: '💎 Автономия 30 кВт·ч',
+                brand: 'Blue Carbon',
+                powerKw: 13.0,
+                batteryKwh: 30.0,
+                phase: '1',
+                voltage: '220 В (2×300 А·ч)',
+                price: 100,
+                priceFormatted: '100 ₽',
+                shortDesc: 'Мощная двухмодульная станция Blue Carbon: инвертор 13 кВт + 2 блока АКБ суммарной емкостью 30 кВт·ч для полной независимости большого дома.',
+                specs: [
+                    ['Мощность инвертора', '13 кВт (Однофазная сеть 220 В)'],
+                    ['Емкость накопителя LiFePO4', '30 кВт·ч (2 модуля по 51.2 В / 300 А·ч)'],
+                    ['Солнечный массив', 'Поддержка от 8 до 28 солнечных панелей по 585 Вт'],
+                    ['Встроенные защиты и BMS', 'Интеллектуальная BMS (RS485/CAN), дисплей состояния в версии Pro (S)'],
+                    ['Комплектация', 'Полный монтажный комплект с медными шинами и коннекторами MC4'],
+                    ['Гарантия производителя', '10 лет на аккумуляторную батарею, 3 года на инвертор']
+                ]
+            },
+            {
+                id: 'bct-45kwh',
+                name: 'BCT Smart Power Station Pro (19.5 кВт | 45 кВт·ч)',
+                category: 'bct',
+                badge: '👑 Флагман 380В 45 кВт·ч',
+                brand: 'Blue Carbon',
+                powerKw: 19.5,
+                batteryKwh: 45.0,
+                phase: '3',
+                voltage: '380 В (3×300 А·ч)',
+                price: 100,
+                priceFormatted: '100 ₽',
+                shortDesc: 'Промышленный трехфазный комплекс Blue Carbon (380В): инвертор 19.5 кВт + 3 аккумуляторных блока на 45 кВт·ч для бизнеса, ферм и отелей.',
+                specs: [
+                    ['Трехфазная система', '380 В (четырехпроводная схема) + дополнительный выход 220 В'],
+                    ['Мощность инвертора', '19.5 кВт'],
+                    ['Емкость аккумуляторов', '45 кВт·ч (3 блока по 51.2 В / 300 А·ч)'],
+                    ['Солнечный генератор', 'Подключение от 12 до 42 солнечных панелей по 585 Вт'],
+                    ['Масштабируемость', 'Поддержка многогруппового параллельного соединения'],
+                    ['Гарантия производителя', '10 лет на аккумуляторные батареи, 3 года на инвертор']
+                ]
+            },
+            {
+                id: 'bct-fxc-65',
+                name: 'Инвертор BCT-FXC-6.5KW-P (Blue Carbon)',
+                category: 'bct',
+                badge: '⚡ До 9 шт. в параллель',
+                brand: 'Blue Carbon',
+                powerKw: 6.5,
+                batteryKwh: 0,
+                phase: '1',
+                voltage: '48 В',
+                price: 100,
+                priceFormatted: '100 ₽',
+                shortDesc: 'Многофункциональный гибридный инвертор 6.5 кВт от Blue Carbon с двумя выходами AC OUT1/OUT2 и параллельной работой до 9 устройств.',
+                specs: [
+                    ['Модель и бренд', 'BCT-FXC-6.5KW-P (Blue Carbon Technology Inc.)'],
+                    ['Номинальная мощность', '6.5 кВт (работа с АКБ 48 В или без аккумулятора)'],
+                    ['Два выхода переменного тока', 'AC OUT 1 (основной) + AC OUT 2 (отключаемый по таймеру или SOC АКБ)'],
+                    ['Солнечный вход MPPT', 'Диапазон 160–450 В DC (Voc до 500 В), макс. ток заряда 120 А'],
+                    ['Параллельный режим', 'До 9 инверторов в однофазную или трехфазную (3P1/3P2/3P3) систему'],
+                    ['Связь с BMS', 'Протоколы PYLON, GROWATT, VOLTRONIC, CVTE, PACE по RS485/CAN + Wi-Fi']
+                ]
+            }
+        ];
+
+        let currentCategory = 'all';
+        let configState = {
+            objectType: 'Частный дом',
+            phase: '1',
+            power: 6.5,
+            battery: 10,
+            recommendedText: ''
+        };
+        let lastGeneratedOrderMessage = '';
+
+        // Иллюстрация устройства в зависимости от типа
+        function getDeviceVisual(product) {
+            if (product.category === 'batteries') {
+                return `
+                <div class="w-24 h-28 rounded-xl bg-gradient-to-b from-slate-800 to-slate-950 border-2 border-emerald-500/40 p-2.5 flex flex-col justify-between relative shadow-lg">
+                    <div class="flex justify-between items-center">
+                        <span class="text-[9px] font-black text-emerald-400">${product.brand}</span>
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    </div>
+                    <div class="space-y-1 my-auto">
+                        <div class="h-1.5 bg-emerald-400 rounded-full w-full"></div>
+                        <div class="h-1.5 bg-emerald-400 rounded-full w-5/6"></div>
+                        <div class="h-1.5 bg-emerald-400 rounded-full w-4/6"></div>
+                    </div>
+                    <div class="text-[9px] font-mono text-center text-slate-300 bg-black/40 rounded py-0.5">LiFePO4</div>
+                </div>`;
+            }
+            if (product.category === 'bct' || product.category === 'ess') {
+                return `
+                <div class="w-24 h-28 rounded-xl bg-gradient-to-b from-slate-700 via-slate-800 to-slate-950 border-2 border-blue-400/40 p-2.5 flex flex-col justify-between relative shadow-lg">
+                    <div class="flex justify-between items-center">
+                        <span class="text-[9px] font-black text-blue-300">${product.brand}</span>
+                        <i class="fa-solid fa-wifi text-[9px] text-emerald-400"></i>
+                    </div>
+                    <div class="bg-dark-950 border border-blue-400/30 rounded p-1.5 text-center">
+                        <div class="text-[9px] font-mono text-emerald-400">${product.powerKw} kW</div>
+                        <div class="text-[8px] text-amber-300">${product.batteryKwh > 0 ? product.batteryKwh + ' kWh' : 'HYBRID'}</div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-1">
+                        <div class="h-3 bg-slate-900 rounded border border-white/10"></div>
+                        <div class="h-3 bg-slate-900 rounded border border-white/10"></div>
+                        <div class="h-3 bg-slate-900 rounded border border-white/10"></div>
+                    </div>
+                </div>`;
+            }
+            return `
+            <div class="w-24 h-28 rounded-xl bg-gradient-to-b from-slate-100 to-slate-300 border-2 border-emerald-400/50 p-2.5 flex flex-col justify-between relative shadow-lg text-slate-900">
+                <div class="flex justify-between items-center">
+                    <span class="text-[9px] font-black tracking-tighter text-slate-900">${product.brand}</span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                </div>
+                <div class="w-11 h-11 rounded-full bg-slate-900 border-2 border-emerald-400 mx-auto flex flex-col items-center justify-center text-white">
+                    <span class="text-[8px] font-mono text-emerald-400">${product.powerKw}kW</span>
+                    <span class="text-[7px] text-slate-300">MPPT</span>
+                </div>
+                <div class="text-[8px] font-bold text-center text-slate-700 uppercase">Pure Sine</div>
+            </div>`;
+        }
+
+        // Отрисовка каталога (без любых упоминаний наличия, все цены = 100 ₽)
+        function renderCatalog() {
+            const grid = document.getElementById('catalogGrid');
+            const search = document.getElementById('searchInput').value.toLowerCase().trim();
+            const sort = document.getElementById('sortSelect').value;
+
+            let filtered = products.filter(item => {
+                const matchesCat =
+                    currentCategory === 'all' ? true :
+                    currentCategory === 'bct' ? (item.category === 'bct') :
+                    item.category === currentCategory;
+
+                const matchesSearch = !search ||
+                    item.name.toLowerCase().includes(search) ||
+                    item.shortDesc.toLowerCase().includes(search) ||
+                    item.brand.toLowerCase().includes(search);
+
+                return matchesCat && matchesSearch;
+            });
+
+            if (sort === 'powerDesc') {
+                filtered.sort((a, b) => b.powerKw - a.powerKw);
+            } else if (sort === 'powerAsc') {
+                filtered.sort((a, b) => a.powerKw - b.powerKw);
+            }
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full glass-card rounded-2xl p-10 text-center">
+                        <div class="text-3xl mb-2">🔍</div>
+                        <h3 class="text-lg font-bold text-white">По вашему запросу ничего не найдено</h3>
+                        <p class="text-sm text-slate-400 mt-1">Попробуйте сбросить фильтр или напишите напрямую <a href="https://t.me/Maxim1brd" target="_blank" class="text-emerald-400 underline">@Maxim1brd</a></p>
+                    </div>`;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(item => `
+                <div class="glass-card rounded-3xl p-6 flex flex-col justify-between transition duration-300 hover:-translate-y-1 relative overflow-hidden">
+                    <div>
+                        <!-- Верхний бейдж -->
+                        <div class="flex items-center justify-between gap-2 mb-4">
+                            <span class="bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 text-[11px] font-bold px-3 py-1 rounded-full">
+                                ${item.badge}
+                            </span>
+                            <span class="text-xs text-slate-400 font-semibold">${item.brand}</span>
+                        </div>
+
+                        <!-- Иллюстрация + Заголовок -->
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="shrink-0">
+                                ${getDeviceVisual(item)}
+                            </div>
+                            <div>
+                                <div class="text-xs text-slate-400 uppercase font-semibold">${item.voltage}</div>
+                                <h3 class="text-lg font-extrabold text-white leading-snug mt-0.5">${item.name}</h3>
+                                <div class="flex flex-wrap gap-1.5 mt-2">
+                                    <span class="bg-white/5 border border-white/10 text-slate-200 text-[11px] px-2 py-0.5 rounded-md">
+                                        ⚡ ${item.powerKw} кВт
+                                    </span>
+                                    ${item.batteryKwh > 0 ? `
+                                    <span class="bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-[11px] px-2 py-0.5 rounded-md">
+                                        🔋 ${item.batteryKwh} кВт·ч
+                                    </span>` : ''}
+                                    <span class="bg-blue-500/15 border border-blue-500/30 text-blue-300 text-[11px] px-2 py-0.5 rounded-md">
+                                        ${item.phase === '3' ? '3 фазы (380В)' : '1 фаза (220В)'}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed mb-5">
+                            ${item.shortDesc}
+                        </p>
+                    </div>
+
+                    <!-- Нижний блок цены и кнопок -->
+                    <div class="pt-4 border-t border-white/10">
+                        <div class="flex items-baseline justify-between mb-3">
+                            <span class="text-xs text-slate-400">Цена лота:</span>
+                            <span class="text-2xl font-black text-emerald-400">${item.priceFormatted}</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2.5">
+                            <button onclick="openSpecsModal('${item.id}')" class="bg-white/5 hover:bg-white/10 border border-white/15 text-slate-200 font-semibold py-2.5 px-3 rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-list-check text-emerald-400"></i>
+                                <span>Подробнее</span>
+                            </button>
+                            <button onclick="openOrderModal('${item.name} (${item.priceFormatted})')" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold py-2.5 px-3 rounded-xl text-xs sm:text-sm transition flex items-center justify-center gap-1.5">
+                                <i class="fa-solid fa-cart-shopping"></i>
+                                <span>Заказать</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Фильтрация по вкладкам категорий
+        function filterCatalog(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-tab').forEach(btn => {
+                if (btn.getAttribute('data-cat') === cat) {
+                    btn.className = 'cat-tab bg-emerald-500 text-slate-950 font-bold px-4 py-2.5 rounded-xl text-xs sm:text-sm shrink-0 transition';
+                } else {
+                    btn.className = 'cat-tab bg-dark-800 text-slate-300 hover:bg-dark-700 font-semibold px-4 py-2.5 rounded-xl text-xs sm:text-sm shrink-0 border border-white/10 transition';
+                }
+            });
+            renderCatalog();
+        }
+
+        // ЛОГИКА ИНТЕРАКТИВНОГО КОНФИГУРАТОРА (все цены = 100 ₽)
+        function setConfigObject(objName, defaultPower, defaultBatt, defaultPhase) {
+            configState.objectType = objName;
+            document.getElementById('powerRange').value = defaultPower;
+            document.getElementById('batteryRange').value = defaultBatt;
+            setConfigPhase(defaultPhase);
+
+            const btns = document.querySelectorAll('#objTypeButtons .obj-btn');
+            btns.forEach(b => {
+                if (b.textContent.trim().includes(objName.split(' ')[0])) {
+                    b.className = 'obj-btn active bg-emerald-500 text-slate-950 font-bold py-3 px-4 rounded-xl text-xs sm:text-sm border border-emerald-400 transition flex items-center justify-center gap-2';
+                } else {
+                    b.className = 'obj-btn bg-dark-800 hover:bg-dark-700 text-slate-200 font-semibold py-3 px-4 rounded-xl text-xs sm:text-sm border border-white/10 transition flex items-center justify-center gap-2';
+                }
+            });
+
+            updateConfigurator();
+        }
+
+        function setConfigPhase(phaseVal) {
+            configState.phase = phaseVal;
+            const p1 = document.getElementById('phase1Btn');
+            const p3 = document.getElementById('phase3Btn');
+            if (phaseVal === '1') {
+                p1.className = 'bg-emerald-500/20 border-emerald-400 text-emerald-300 font-bold py-2.5 px-4 rounded-xl text-xs sm:text-sm border transition';
+                p3.className = 'bg-dark-800 border-white/10 text-slate-300 font-semibold py-2.5 px-4 rounded-xl text-xs sm:text-sm border transition';
+            } else {
+                p3.className = 'bg-emerald-500/20 border-emerald-400 text-emerald-300 font-bold py-2.5 px-4 rounded-xl text-xs sm:text-sm border transition';
+                p1.className = 'bg-dark-800 border-white/10 text-slate-300 font-semibold py-2.5 px-4 rounded-xl text-xs sm:text-sm border transition';
+            }
+            updateConfigurator();
+        }
+
+        function updateConfigurator() {
+            const p = parseFloat(document.getElementById('powerRange').value);
+            const b = parseFloat(document.getElementById('batteryRange').value);
+            configState.power = p;
+            configState.battery = b;
+
+            document.getElementById('powerValueDisplay').textContent = p.toFixed(1) + ' кВт';
+            document.getElementById('batteryValueDisplay').textContent = b.toFixed(1) + ' кВт·ч';
+
+            let title = '';
+            let desc = '';
+            let priceText = '100 ₽';
+            let badge = 'Оптимальный выбор';
+            let powerSummary = '';
+            let battSummary = '';
+
+            if (configState.phase === '3') {
+                if (b >= 30 || p >= 16.5) {
+                    title = 'BCT Smart Power Station Pro (19.5 кВт | 45 кВт·ч)';
+                    desc = 'Флагманская трехфазная система Blue Carbon (380В): инвертор 19.5 кВт + 3 блока LiFePO4 суммарно на 45 кВт·ч. Гарантия 10 лет на АКБ!';
+                    badge = '👑 Трехфазный флагман BCT';
+                    powerSummary = '19.5 кВт (380В)';
+                    battSummary = '45 кВт·ч LiFePO4';
+                } else {
+                    const akbModel = b <= 10 ? 'LP16-48200 (10.24 кВт·ч)' : (b <= 20 ? 'LP16-48300 (15.36 кВт·ч)' : 'LP16-48600 (30.72 кВт·ч)');
+                    title = `MUST PH1100 EU (${p <= 10 ? '10' : '16'} кВт) + АКБ MUST ${akbModel}`;
+                    desc = 'Трехфазный гибридный комплекс IP66 с поддержкой 100% несимметричной нагрузки по фазам и модульным накопителем LiFePO4.';
+                    badge = '🏭 Трехфазный гибрид 380В';
+                    powerSummary = `${p.toFixed(1)} кВт (380В)`;
+                    battSummary = akbModel;
+                }
+            } else {
+                if (p <= 4.0 && b <= 4.0) {
+                    title = 'Станция «Всё в одном» MUST HBP19-3524 VPM';
+                    desc = 'Единый стильный корпус без лишних проводов: инвертор 3.5 кВт + встроенный аккумулятор LiFePO4 3.2 кВт·ч (6000+ циклов).';
+                    badge = '🏠 Всё в одном ESS';
+                    powerSummary = '3.5 кВт (Чистый синус)';
+                    battSummary = '3.2 кВт·ч LiFePO4 (встроен)';
+                } else if (p <= 6.0 && b <= 6.0) {
+                    title = 'Станция «Всё в одном» MUST HBP19-5548 VPM';
+                    desc = 'Готовая система хранения энергии: инвертор 5.5 кВт + встроенная батарея LiFePO4 5.12 кВт·ч + MPPT до 6000 Вт и Wi-Fi.';
+                    badge = '🔥 Хит «Всё в одном»';
+                    powerSummary = '5.5 кВт (Чистый синус)';
+                    battSummary = '5.12 кВт·ч LiFePO4 (встроен)';
+                } else if (p <= 7.0 && b <= 12.5) {
+                    title = 'MUST PV19-6548 EXP + АКБ MUST LP16-48200';
+                    desc = 'Идеальная связка: инвертор 6.5 кВт с двойным выходом и Wi-Fi + аккумулятор LiFePO4 10.24 кВт·ч (51.2В 200Ач).';
+                    badge = '⚡ Оптимальный комплект';
+                    powerSummary = '6.5 кВт (Dual Output)';
+                    battSummary = '10.24 кВт·ч LiFePO4';
+                } else if (p <= 10.5 && b <= 18.0) {
+                    title = 'MUST PV19-10048 EXP (10 кВт) + АКБ LP16-48300 (15.36 кВт·ч)';
+                    desc = 'Мощный коттеджный комплект: инвертор 10 кВт (пик 20 кВт) + накопитель LiFePO4 15.36 кВт·ч (300 А·ч).';
+                    badge = '⚡ Коттеджный максимум';
+                    powerSummary = '10.0 кВт (пик 20 кВт)';
+                    battSummary = '15.36 кВт·ч LiFePO4';
+                } else {
+                    title = 'BCT Smart Power Station Pro (13 кВт | 30 кВт·ч)';
+                    desc = 'Модульная станция Blue Carbon Technology (220В): инвертор 13 кВт + 2 блока АКБ на 30 кВт·ч. Официальная гарантия 10 лет на батарею!';
+                    badge = '💎 Гарантия 10 лет на АКБ';
+                    powerSummary = '13.0 кВт (220В)';
+                    battSummary = '30.0 кВт·ч LiFePO4';
+                }
+            }
+
+            document.getElementById('recBadge').textContent = badge;
+            document.getElementById('recTitle').textContent = title;
+            document.getElementById('recDesc').textContent = desc;
+            document.getElementById('recSummaryObj').textContent = `${configState.objectType} (${configState.phase === '3' ? '380В 3 фазы' : '220В 1 фаза'})`;
+            document.getElementById('recSummaryPower').textContent = powerSummary;
+            document.getElementById('recSummaryBatt').textContent = battSummary;
+            document.getElementById('recPrice').textContent = priceText;
+
+            configState.recommendedText = `${title} [Объект: ${configState.objectType}, Сеть: ${configState.phase === '3' ? '380В' : '220В'}, Запрос: ${p.toFixed(1)} кВт / ${b.toFixed(1)} кВт·ч] — 100 ₽`;
+        }
+
+        function orderConfiguredSystem() {
+            openOrderModal(configState.recommendedText);
+        }
+
+        // МОДАЛЬНОЕ ОКНО ХАРАКТЕРИСТИК
+        function openSpecsModal(productId) {
+            const item = products.find(p => p.id === productId);
+            if (!item) return;
+
+            const container = document.getElementById('specsModalContent');
+            container.innerHTML = `
+                <div class="flex items-center gap-2 text-emerald-400 text-xs font-bold uppercase tracking-wider mb-1">
+                    <span>${item.brand}</span> • <span>Технический паспорт модели</span>
+                </div>
+                <h3 class="text-2xl font-black text-white mb-2">${item.name}</h3>
+                <p class="text-sm text-slate-300 mb-5">${item.shortDesc}</p>
+
+                <div class="bg-dark-950/90 border border-white/10 rounded-2xl overflow-hidden mb-6">
+                    <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                        <tbody>
+                            ${item.specs.map((row, idx) => `
+                                <tr class="${idx % 2 === 0 ? 'bg-white/[0.02]' : ''} border-b border-white/5">
+                                    <td class="py-3 px-4 text-slate-400 font-medium w-2/5">${row[0]}</td>
+                                    <td class="py-3 px-4 text-white font-semibold">${row[1]}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-emerald-500/10 border border-emerald-500/30 rounded-2xl p-4">
+                    <div>
+                        <div class="text-xs text-slate-300">Цена лота:</div>
+                        <div class="text-2xl font-black text-emerald-400">${item.priceFormatted}</div>
+                    </div>
+                    <button onclick="closeSpecsModal(); openOrderModal('${item.name} (${item.priceFormatted})')" class="w-full sm:w-auto bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold px-6 py-3.5 rounded-xl text-sm transition glow-green">
+                        Оформить заказ за 100 ₽
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('specsModal').classList.remove('hidden');
+        }
+
+        function closeSpecsModal() {
+            document.getElementById('specsModal').classList.add('hidden');
+        }
+
+        // МОДАЛЬНОЕ ОКНО ЗАКАЗА И ОТПРАВКИ В TELEGRAM (@Maxim1brd + Bot API)
+        function openOrderModal(productTitle) {
+            document.getElementById('modalSelectedProduct').textContent = productTitle;
+            document.getElementById('orderSuccessBox').classList.add('hidden');
+            document.getElementById('orderModal').classList.remove('hidden');
+        }
+
+        function closeOrderModal() {
+            document.getElementById('orderModal').classList.add('hidden');
+        }
+
+        function copyTextToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            try {
+                document.execCommand('copy');
+            } catch (err) {}
+            document.body.removeChild(textarea);
+        }
+
+        async function handleOrderSubmit(e) {
+            e.preventDefault();
+            const product = document.getElementById('modalSelectedProduct').textContent;
+            const name = document.getElementById('clientName').value.trim();
+            const phone = document.getElementById('clientPhone').value.trim();
+            const tg = document.getElementById('clientTg').value.trim();
+            const comment = document.getElementById('clientComment').value.trim();
+
+            lastGeneratedOrderMessage =
+`⚡ ЗАЯВКА С САЙТА «ЭНЕРГОУЮТ»
+📦 Модель / Комплект: ${product}
+💰 Стоимость: 100 ₽
+👤 Имя: ${name}
+📞 Телефон: ${phone}
+✈️ Telegram: ${tg || 'не указан'}
+💬 Комментарий: ${comment || 'без комментария'}`;
+
+            // 1. Копируем в буфер обмена
+            copyTextToClipboard(lastGeneratedOrderMessage);
+
+            // 2. Формируем прямую ссылку на личный чат @Maxim1brd с предзаполненным текстом
+            const encodedText = encodeURIComponent(lastGeneratedOrderMessage);
+            const tgUrl = `https://t.me/${TELEGRAM_CONFIG.managerUsername}?text=${encodedText}`;
+            document.getElementById('tgDirectOrderLink').href = tgUrl;
+            document.getElementById('orderSuccessBox').classList.remove('hidden');
+
+            // 3. Если указан токен ТГ-бота, отправляем заявку напрямую через Telegram Bot API в фоновом режиме
+            if (TELEGRAM_CONFIG.botToken && TELEGRAM_CONFIG.chatId) {
+                try {
+                    await fetch(`https://api.telegram.org/bot${TELEGRAM_CONFIG.botToken}/sendMessage`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            chat_id: TELEGRAM_CONFIG.chatId,
+                            text: lastGeneratedOrderMessage
+                        })
+                    });
+                    document.getElementById('orderStatusAlert').innerHTML =
+                        '✅ <b>Заявка автоматически отправлена в Telegram-бот владельца!</b> Вы также можете сразу написать менеджеру <b>@Maxim1brd</b> по кнопке ниже.';
+                } catch (err) {}
+            } else {
+                // Автоматически открываем чат с @Maxim1brd в новой вкладке
+                window.open(tgUrl, '_blank');
+            }
+        }
+
+        function copyOrderTextAgain() {
+            if (!lastGeneratedOrderMessage) return;
+            copyTextToClipboard(lastGeneratedOrderMessage);
+            const label = document.getElementById('copyBtnLabel');
+            label.textContent = 'Скопировано!';
+            setTimeout(() => { label.textContent = 'Скопировать текст'; }, 2000);
+        }
+
+        function submitQuickFooterForm(e) {
+            e.preventDefault();
+            const name = document.getElementById('footerName').value.trim();
+            const contact = document.getElementById('footerContact').value.trim();
+            openOrderModal('Индивидуальный подбор энергостанции (100 ₽)');
+            document.getElementById('clientName').value = name;
+            document.getElementById('clientPhone').value = contact;
+        }
+
+        // Закрытие модальных окон по клику на фон
+        window.addEventListener('click', (e) => {
+            const orderModal = document.getElementById('orderModal');
+            const specsModal = document.getElementById('specsModal');
+            if (e.target === orderModal) closeOrderModal();
+            if (e.target === specsModal) closeSpecsModal();
+        });
+
+        // Инициализация при загрузке
+        window.onload = function() {
+            updateConfigurator();
+            renderCatalog();
+        };
+    </script>
+</body>
+</html>
